@@ -1,8 +1,4 @@
-# TransitIQ
-Lock‑free multi‑modal routing engine for smart city traffic. Built with Java 21, virtual threads, and admissible A* search. Group 4 – BOLEH | SCSE1224 Advanced Programming
-
-
-
+<!--
   ██████╗   ██████╗  ██╗     ███████╗ ██╗  ██╗
   ██╔══██╗ ██╔═══██╗ ██║     ██╔════╝ ██║  ██║
   ██████╔╝ ██║   ██║ ██║     █████╗   ███████║
@@ -14,13 +10,13 @@ Lock‑free multi‑modal routing engine for smart city traffic. Built with Java
   Group  : 4 – BOLEH
   Course : SCSE1224 Advanced Programming
   Project: TransitIQ – Lock‑Free Multi‑Modal Routing Engine
-  Date   : 23 April 2026
-
+  Date   : 05 May 2026
+-->
 
 # TransitIQ – Smart City Traffic & Public Transit Router
 
 **Lock‑Free Multi‑Modal Routing Engine**  
-*Built for SCSE1224 Advanced Programming, Universiti Teknologi Malaysia (UTM)*  
+*Built for SCSE1224 Advanced Programming, Universiti Teknologi Malaysia (UTM)*
 
 **Group 4 – BOLEH**  
 *Nahid Hasan Rayan (NHR), Jobayer Alam, Khalid Waleed Issa, Zay Yar Shin*
@@ -66,7 +62,6 @@ giving you zero‑blocking snapshots of the traffic state.
 ---
 
 ## 📁 Project Structure
-
 TransitIQ/
 ├── pom.xml
 ├── .gitignore
@@ -133,22 +128,20 @@ mvn exec:java -Dexec.mainClass=com.transitiq.App
 
 🕹️ Demo Commands
 
-- route FASTEST J01 TS05
-
-  Compute the quickest multi‑modal path.
-
-
-- congestion
-
-  Print a real‑time district congestion report.
+route FASTEST J01 TS05
+Compute the quickest multi‑modal path.
 
 
-- trips
+congestion
+Print a real‑time district congestion report.
 
-  List saved trip history.
+
+trips
+List saved trip history.
 
 
-- exit
+exit
+
 
 🔒 Thread‑Safety Proof
 TransitNode and TransitEdge are immutable Java records.
@@ -164,5 +157,3 @@ Each concurrent route search works on its own PriorityQueue and HashSet — no s
 Non‑functional requirement NFR‑2:
 A route search on a 500‑node, 2000‑edge graph must complete in < 150 ms on commodity JDK 21 hardware.
 The PerformanceTest class will enforce this once the test suite is added.
-
-
