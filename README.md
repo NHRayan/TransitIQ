@@ -2,7 +2,7 @@
 Lock‑free multi‑modal routing engine for smart city traffic. Built with Java 21, virtual threads, and admissible A* search. Group 4 – BOLEH | SCSE1224 Advanced Programming
 
 
-<!--
+
   ██████╗   ██████╗  ██╗     ███████╗ ██╗  ██╗
   ██╔══██╗ ██╔═══██╗ ██║     ██╔════╝ ██║  ██║
   ██████╔╝ ██║   ██║ ██║     █████╗   ███████║
@@ -15,7 +15,7 @@ Lock‑free multi‑modal routing engine for smart city traffic. Built with Java
   Course : SCSE1224 Advanced Programming
   Project: TransitIQ – Lock‑Free Multi‑Modal Routing Engine
   Date   : 23 April 2026
--->
+
 
 # TransitIQ – Smart City Traffic & Public Transit Router
 
@@ -66,6 +66,7 @@ giving you zero‑blocking snapshots of the traffic state.
 ---
 
 ## 📁 Project Structure
+
 TransitIQ/
 ├── pom.xml
 ├── .gitignore
@@ -133,14 +134,17 @@ mvn exec:java -Dexec.mainClass=com.transitiq.App
 🕹️ Demo Commands
 
 - route FASTEST J01 TS05
+
   Compute the quickest multi‑modal path.
 
 
 - congestion
+
   Print a real‑time district congestion report.
 
 
 - trips
+
   List saved trip history.
 
 
@@ -154,6 +158,7 @@ The traffic weight map is stored in an AtomicReference<Map<String,Double>>; a sn
 TrafficSimulator replaces the map atomically via Map.copyOf().
 
 Each concurrent route search works on its own PriorityQueue and HashSet — no shared mutable state.
+
 
 📊 Performance Requirement
 Non‑functional requirement NFR‑2:
