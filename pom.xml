@@ -6,7 +6,7 @@
   Project: TransitIQ – Smart City Traffic & Public Transit Router
   Date   : 23 April 2026
   Notes  : This POM enforces Java 21, 85% code coverage, and Google style.
-           
+           JaCoCo bumped to 0.8.12 for JDK 26 compatibility.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -30,7 +30,8 @@
         <!-- Plugin versions -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <!-- NHR: JaCoCo 0.8.12 adds support for JDK 26 class files (major version 70) -->
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
 
         <!-- Dependency versions -->
@@ -60,14 +61,12 @@
         </dependency>
 
         <!-- NHR: JSONassert is available for TripLogger tests -->
-        
         <dependency>
             <groupId>org.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <version>1.5.1</version>
             <scope>test</scope>
         </dependency>
-        
     </dependencies>
 
     <build>
@@ -112,6 +111,13 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <!-- NHR: exclude JDK/Sun classes to avoid JaCoCo warnings on JDK 26 -->
+                            <excludes>
+                                <exclude>sun/**</exclude>
+                                <exclude>jdk/**</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>report</id>
