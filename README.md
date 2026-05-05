@@ -49,49 +49,71 @@ giving you zero‑blocking snapshots of the traffic state.
 ---
 
 ## 📁 Project Structure
+
 TransitIQ/
 ├── pom.xml
 ├── .gitignore
 ├── README.md
 ├── data/
-│ ├── nodes.csv (sample graph)
-│ └── edges.csv
+│   ├── nodes.csv                 (20-node test graph)
+│   ├── edges.csv
+│   ├── nodes_500.csv             (benchmark graph)
+│   └── edges_500.csv
 └── src/
-├── main/java/com/transitiq/
-│ ├── App.java # entry point
-│ ├── cli/
-│ │ └── CLIController.java
-│ ├── graph/
-│ │ ├── NodeType.java
-│ │ ├── TransportMode.java
-│ │ ├── TransitNode.java
-│ │ ├── TransitEdge.java
-│ │ ├── CityGraph.java
-│ │ └── GraphLoader.java
-│ ├── routing/
-│ │ ├── RoutingStrategy.java
-│ │ ├── FastestStrategy.java
-│ │ ├── CheapestStrategy.java
-│ │ ├── EcoStrategy.java
-│ │ ├── AStarRouter.java
-│ │ └── RouteResult.java
-│ ├── state/
-│ │ ├── TrafficObserver.java
-│ │ ├── GraphStateManager.java
-│ │ └── TrafficSimulator.java
-│ ├── io/
-│ │ ├── TripRecord.java
-│ │ └── TripLogger.java
-│ ├── validation/
-│ │ └── InputValidator.java
-│ └── exception/
-│ ├── TransitIQException.java
-│ ├── NoRouteException.java
-│ ├── InvalidNodeException.java
-│ ├── StaleSnapshotException.java
-│ └── DataCorruptionException.java
-└── test/java/com/transitiq/ (mirrors main for unit tests)
-
+    ├── main/java/com/transitiq/
+    │   ├── App.java                      // entry point, boots CLI
+    │   ├── cli/
+    │   │   └── CLIController.java        // command parser, orchestrator
+    │   ├── graph/
+    │   │   ├── NodeType.java             // enum: JUNCTION, BUS_STOP, TRAIN_STATION
+    │   │   ├── TransportMode.java        // enum: CAR, BUS, TRAIN, WALK
+    │   │   ├── TransitNode.java          // record (id, lat, lon, type)
+    │   │   ├── TransitEdge.java          // record (from, to, mode, baseTime, maxSpeed, district, cost, co2)
+    │   │   ├── CityGraph.java            // immutable nodes + adjacency list
+    │   │   └── GraphLoader.java          // parses CSV, returns CityGraph
+    │   ├── routing/
+    │   │   ├── RoutingStrategy.java      // interface (computeEdgeCost, heuristic)
+    │   │   ├── RouteSegment.java         // record (edge, actual time, cost, co2)
+    │   │   ├── RouteResult.java          // list<RouteSegment>, total metrics
+    │   │   ├── AStarRouter.java          // generic A* using strategy + snapshot
+    │   │   ├── FastestStrategy.java
+    │   │   ├── CheapestStrategy.java
+    │   │   └── EcoStrategy.java
+    │   ├── state/
+    │   │   ├── TrafficObserver.java      // functional interface
+    │   │   ├── GraphStateManager.java    // AtomicReference<Map<String,Double>>
+    │   │   └── TrafficSimulator.java     // scheduled updater, notifies observers
+    │   ├── io/
+    │   │   ├── TripRecord.java           // record to serialize
+    │   │   └── TripLogger.java           // async JSON appender
+    │   ├── validation/
+    │   │   └── InputValidator.java       // static regex validators
+    │   └── exception/
+    │       ├── TransitIQException.java   // root checked
+    │       ├── NoRouteException.java
+    │       ├── InvalidNodeException.java
+    │       ├── StaleSnapshotException.java
+    │       └── DataCorruptionException.java // unchecked
+    └── test/java/com/transitiq/          (mirrors main with *Test suffix)
+        ├── cli/
+        │   └── CLIControllerTest.java
+        ├── graph/
+        │   ├── GraphLoaderTest.java
+        │   └── CityGraphTest.java
+        ├── routing/
+        │   ├── FastestStrategyTest.java
+        │   ├── CheapestStrategyTest.java
+        │   ├── EcoStrategyTest.java
+        │   └── AStarRouterTest.java
+        ├── state/
+        │   ├── GraphStateManagerTest.java
+        │   ├── TrafficSimulatorTest.java
+        │   └── ConcurrencyStressTest.java   // integration: many threads + updates
+        ├── io/
+        │   └── TripLoggerTest.java
+        ├── validation/
+        │   └── InputValidatorTest.java
+        └── PerformanceTest.java            // A* benchmark on 500-node graph
 
 ---
 
