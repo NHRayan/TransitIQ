@@ -20,9 +20,9 @@ public final class InputValidator {
 
   private InputValidator() { /* utility */ }
 
-  /** Station code: two uppercase letters followed by exactly two digits. */
+  /** Station code: one or two uppercase letters followed by exactly two digits. */
   private static final Pattern STATION_PAT =
-      Pattern.compile("^[A-Z]{2}[0-9]{2}$");
+      Pattern.compile("^[A-Z]{1,2}[0-9]{2}$");
 
   /** GPS coordinate: optional sign, 1‑3 integer digits, dot, 4‑6 decimal places. */
   private static final Pattern COORD_PAT =
