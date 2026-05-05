@@ -46,7 +46,7 @@ giving you zero‑blocking snapshots of the traffic state.
 | Code Style     | Google Java Style (Checkstyle) |
 | Concurrency    | Virtual Threads, `AtomicReference`, `CompletableFuture` |
 
----
+
 
 ## 📁 Project Structure
 
@@ -115,7 +115,7 @@ TransitIQ/
         │   └── InputValidatorTest.java
         └── PerformanceTest.java            // A* benchmark on 500-node graph
 
----
+
 
 ## ⚙️ Build & Run
 
